@@ -1,0 +1,7 @@
+CREATE DATABASE IF NOT EXISTS todoapp;
+USE todoapp;
+CREATE TABLE IF NOT EXISTS todos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200),
+    completed BOOLEAN
+);
