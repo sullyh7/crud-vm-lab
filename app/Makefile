@@ -1,5 +1,5 @@
 build:
-	@go build -o bin/todoapp main.go 
+	@go build -o bin/todoapp *.go 
 
 run: build
 	@./bin/todoapp

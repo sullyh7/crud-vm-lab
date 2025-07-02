@@ -3,10 +3,32 @@ package main
 import (
 	"context"
 	"database/sql"
+	"log"
+	"net/http"
+	"os"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
+	dbAddr := envGetString("DB_ADDR", ":memory:")
+	db, err := newDB(dbAddr, 10, 5, "30m")
+	if err != nil {
+		log.Fatal(err)
+	}
+	app := API{
+		todos:  TodoStore{db},
+		router: http.NewServeMux(),
+		addr:   envGetString("ADDR", ":8080"),
+	}
+
+	app.setup()
+
+	log.Printf("starting server at %s", app.addr)
+	if err := http.ListenAndServe(app.addr, app.router); err != nil {
+		log.Fatal(err)
+	}
 
 }
 
@@ -33,4 +55,12 @@ func newDB(addr string, maxOpenConns, maxIdleConns int, maxIdleTime string) (*sq
 	}
 
 	return db, nil
+}
+
+func envGetString(key, fallback string) string {
+	val, ok := os.LookupEnv(key)
+	if !ok {
+		return fallback
+	}
+	return val
 }
