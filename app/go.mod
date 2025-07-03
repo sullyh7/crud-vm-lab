@@ -1,6 +1,6 @@
 module github.com/sullyh7/crud-vm-lab
 
-go 1.24.1
+go 1.24
 
 require github.com/go-sql-driver/mysql v1.9.3
 

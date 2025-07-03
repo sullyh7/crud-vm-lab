@@ -1,5 +1,10 @@
+.PHONY: build run 
+
 build:
-	@go build -o bin/todoapp *.go 
+	@mkdir -p bin
+	@go build -o bin/todoapp *.go
 
 run: build
 	@./bin/todoapp
+
+
